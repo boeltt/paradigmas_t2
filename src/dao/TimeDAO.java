@@ -8,8 +8,10 @@ import java.sql.Statement;
 
 import entidades.Time;
 import dao.infra.DAO;
+//import dao.JogadorDAO;
 
 public class TimeDAO extends DAO<Time> {
+	//private static final String SqlBuscaPorNome = "SELECT id FROM time WHERE nome = ?";
 
 	public TimeDAO() {
 		setSqlInsercao("INSERT INTO time (nome, estadio, cidade, dataFund) VALUES (?, ?, ?, ?)");
@@ -55,4 +57,26 @@ public class TimeDAO extends DAO<Time> {
 	protected void busca(PreparedStatement ps, Time t) throws SQLException {
 		ps.setString(1, t.getNome());
 	}
+
+	/*protected Time buscarPorNome(Time t) {
+		try (Connection c = abrir(); PreparedStatement ps = c.prepareStatement(SqlBuscaPorNome)) {
+
+			ps.setString(1, t.getNome());
+			ResultSet rs = ps.executeQuery();
+
+			if (!rs.next())
+				return null;
+
+			Time res = new Time();
+			res.setId(rs.getInt("id"));
+			res.setNome(rs.getString("nome"));
+
+			res.setJogadores(new JogadorDAO().listarJogadoresTime(res));
+
+			return res;
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}COMO FAZER ESSA DESGRAÇA SEM A PORRA DO OBJETO????????????????????????????????*/
 }
