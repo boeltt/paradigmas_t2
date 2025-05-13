@@ -10,6 +10,7 @@ public abstract class DAO<T> {
 	private String sqlExclusao;
 	private String sqlBusca;
 	private String sqlExclusaoTodos;
+	private String sqlBuscaTodos;
 
 	public String getSqlInsercao() {
 		return sqlInsercao;
@@ -50,7 +51,15 @@ public abstract class DAO<T> {
 	public void setSqlBusca(String sqlBusca) {
 		this.sqlBusca = sqlBusca;
 	}
+	
+	public String getSqlBuscaTodos() {
+		return sqlBuscaTodos;
+	}
 
+	public void setSqlBuscaTodos(String sqlBuscaTodos) {
+		this.sqlBuscaTodos = sqlBuscaTodos;
+	}
+	
 	public Connection abrir() {
 		Connection c = null;
 		try {

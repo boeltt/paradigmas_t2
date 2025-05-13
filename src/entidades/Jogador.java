@@ -4,7 +4,7 @@ public class Jogador {
 	private final String nome;
 	private String posicao;
 	private int idade;
-	private int numCamisa;
+	private final int numCamisa;
 	private Time time;
 
 	public Jogador(String nome, String posicao, int idade, int numCamisa, Time time) {
@@ -53,10 +53,6 @@ public class Jogador {
 
 	public int getNumCamisa() {
 		return numCamisa;
-	}
-
-	public void setNumCamisa(int numCamisa) {
-		this.numCamisa = numCamisa;
 	}
 
 }

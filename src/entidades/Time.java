@@ -11,6 +11,7 @@ public class Time {
 	private final String dataFund;
 	private List<Jogador> jogadores = new ArrayList<>(25);
 	private Treinador treinador;
+	private int id;
 	
 	public Time(String nome, String estadio, String cidade, String dataFund, List<Jogador> jogadores,
 			Treinador treinador) {
@@ -18,7 +19,6 @@ public class Time {
 		this.estadio = estadio;
 		this.cidade = cidade;
 		this.dataFund = dataFund;
-		this.treinador = treinador;
 		if(jogadores != null && jogadores.size() <= 25) {
 			this.jogadores.addAll(jogadores);
 		} else {
@@ -72,5 +72,15 @@ public class Time {
 			System.out.println(j.getNome());
 		}
 	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	
 
 }
