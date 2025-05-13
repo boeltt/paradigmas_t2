@@ -8,8 +8,8 @@ public abstract class DAO<T> {
 	private String sqlInsercao;
 	private String sqlAlteracao;
 	private String sqlExclusao;
+	private String sqlBusca;
 	private String sqlExclusaoTodos;
-	private String sqlBuscaTodos;
 
 	public String getSqlInsercao() {
 		return sqlInsercao;
@@ -43,12 +43,12 @@ public abstract class DAO<T> {
 		this.sqlExclusaoTodos = sqlExclusaoTodos;
 	}
 
-	public String getSqlBuscaTodos() {
-		return sqlBuscaTodos;
+	public String getSqlBusca() {
+		return sqlBusca;
 	}
 
-	public void setSqlBuscaTodos(String sqlBuscaTodos) {
-		this.sqlBuscaTodos = sqlBuscaTodos;
+	public void setSqlBusca(String sqlBusca) {
+		this.sqlBusca = sqlBusca;
 	}
 
 	public Connection abrir() {
@@ -61,5 +61,5 @@ public abstract class DAO<T> {
 		return c;
 	}
 	
-	//TODO: Metodos de insercao, remocao, etc... Mas fazer depois de concluir os DAO das entidades.
+	//TODO: Metodos de insercao, remocao, etc...
 }
