@@ -17,20 +17,20 @@ public class TreinadorDAO extends DAO<Treinador> {
 		setSqlExclusaoTodos("DELETE * FROM treinador");
 	}
 
-	protected void inserir(PreparedStatement ps, Treinador t) throws SQLException {
+	protected void doInserir(PreparedStatement ps, Treinador t) throws SQLException {
 		ps.setString(1, t.getNome());
 		ps.setInt(2, t.getTime().getId());
 	}
 
-	protected void alterar(PreparedStatement ps, Treinador t) throws SQLException {
+	protected void doAlterar(PreparedStatement ps, Treinador t) throws SQLException {
 		ps.setInt(1, t.getTime().getId());
 	}
 
-	protected void buscar(PreparedStatement ps, Treinador t) throws SQLException {
+	protected void doBuscar(PreparedStatement ps, Treinador t) throws SQLException {
 		ps.setString(1, t.getNome());
 	}
 
-	protected void exluir(PreparedStatement ps, Treinador t) throws SQLException {
+	protected void doExluir(PreparedStatement ps, Treinador t) throws SQLException {
 		ps.setString(1, t.getNome());
 	}
 

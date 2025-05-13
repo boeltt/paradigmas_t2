@@ -22,7 +22,7 @@ public class TimeDAO extends DAO<Time> {
 		setSqlBuscaTodos("SELECT * FROM time");
 	}
 
-	protected void inserir(Time t) {
+	protected void doInserir(Time t) {
 		int idGerado = -1;
 
 		try (Connection c = abrir();
@@ -45,16 +45,16 @@ public class TimeDAO extends DAO<Time> {
 		}
 	}
 
-	protected void alterar(PreparedStatement ps, Time t) throws SQLException {
+	protected void doAlterar(PreparedStatement ps, Time t) throws SQLException {
 		ps.setString(1, t.getEstadio());
 		ps.setString(2, t.getCidade());
 	}
 
-	protected void excluir(PreparedStatement ps, Time t) throws SQLException {
+	protected void doExcluir(PreparedStatement ps, Time t) throws SQLException {
 		ps.setString(1, t.getNome());
 	}
 
-	protected void busca(PreparedStatement ps, Time t) throws SQLException {
+	protected void doBusca(PreparedStatement ps, Time t) throws SQLException {
 		ps.setString(1, t.getNome());
 	}
 

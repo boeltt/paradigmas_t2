@@ -23,7 +23,7 @@ public class JogadorDAO extends DAO<Jogador> {
 		setSqlExclusaoTodos("DELETE * FROM jogador");
 	}
 
-	protected void inserir(PreparedStatement ps, Jogador j) throws SQLException {
+	protected void doInserir(PreparedStatement ps, Jogador j) throws SQLException {
 		ps.setString(1, j.getNome());
 		ps.setString(2, j.getPosicao());
 		ps.setInt(3, j.getIdade());
@@ -31,20 +31,21 @@ public class JogadorDAO extends DAO<Jogador> {
 		ps.setInt(5, j.getTime().getId());
 	}
 
-	protected void alterar(PreparedStatement ps, Jogador j) throws SQLException {
+	protected void doAlterar(PreparedStatement ps, Jogador j) throws SQLException {
 		ps.setString(1, j.getPosicao());
 		ps.setInt(2, j.getIdade());
 		ps.setInt(3, j.getTime().getId());
 	}
 
-	protected void buscar(PreparedStatement ps, Jogador j) throws SQLException {
+	protected Jogador doBuscar(Jogador j) throws SQLException {
 		ps.setString(1, j.getNome());
 	}
 
-	protected void excluir(PreparedStatement ps, Jogador j) throws SQLException {
+	protected void doExcluir(PreparedStatement ps, Jogador j) throws SQLException {
 		ps.setString(1, j.getNome());
 	}
-
+	
+	
 	/*protected List<Jogador> listarJogadoresTime(Time t) {
 		List<Jogador> l = new ArrayList<>();
 		try (Connection c = abrir(); PreparedStatement ps = c.prepareStatement(SqlBuscaPorTime)) {
