@@ -1,18 +1,18 @@
 package dao;
 
-//import java.sql.Connection;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
-//import java.sql.ResultSet;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-//import java.util.ArrayList;
-//import java.util.List;
+import java.util.Collection;
+import java.util.ArrayList;
 
 import dao.infra.DAO;
 import entidades.Jogador;
-//import entidades.Time;
+import entidades.Time;
 
 public class JogadorDAO extends DAO<Jogador> {
-	private static final String SqlBuscaPorTime = "SELECT nome, posicao, idade, numCamisa FROM jogador WHERE id_time = ?";
+	private static final String sqlBuscaPorTime = "SELECT nomeFROM jogador WHERE id_time = ?";
 
 	public JogadorDAO() {
 		setSqlInsercao("INSERT INTO jogador (nome, posicao, idade, numCamisa, id_time VALUES (?, ?, ?, ?, ?");
@@ -23,7 +23,7 @@ public class JogadorDAO extends DAO<Jogador> {
 		setSqlExclusaoTodos("DELETE * FROM jogador");
 	}
 
-	protected void inserir(PreparedStatement ps, Jogador j) throws SQLException {
+	protected void doInserir(PreparedStatement ps, Jogador j) throws SQLException {
 		ps.setString(1, j.getNome());
 		ps.setString(2, j.getPosicao());
 		ps.setInt(3, j.getIdade());
@@ -31,19 +31,42 @@ public class JogadorDAO extends DAO<Jogador> {
 		ps.setInt(5, j.getTime().getId());
 	}
 
-	protected void alterar(PreparedStatement ps, Jogador j) throws SQLException {
+	protected void doAlterar(PreparedStatement ps, Jogador j) throws SQLException {
 		ps.setString(1, j.getPosicao());
 		ps.setInt(2, j.getIdade());
 		ps.setInt(3, j.getTime().getId());
 	}
 
-	protected void buscar(PreparedStatement ps, Jogador j) throws SQLException {
+	protected void doExcluir(PreparedStatement ps, Jogador j) throws SQLException {
 		ps.setString(1, j.getNome());
 	}
 
-	protected void excluir(PreparedStatement ps, Jogador j) throws SQLException {
-		ps.setString(1, j.getNome());
+	protected Collection<Jogador> listarPorTime(Time t) {
+		Collection<Jogador> jogadores = new ArrayList<>();
+
+		try (Connection c = abrir(); PreparedStatement ps = c.prepareStatement(sqlBuscaPorTime)) {
+			ps.setInt(1, t.getId());
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				jogadores.add(preencher(rs));
+			}
+			c.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		return jogadores;
 	}
-	
-	protected void buscarPorTime(PreparedStatement ps, )
+
+	protected Jogador preencher(ResultSet rs) throws SQLException {
+		String nome = rs.getString("nome");
+		String posicao = rs.getString("posicao");
+		int idade = rs.getInt("idade");
+		int numCamisa = rs.getInt("num_camisa");
+
+		Time time = new TimeDAO().buscarPorNome(nome);
+
+		return new Jogador(nome, posicao, idade, numCamisa, time);
+	}
+
 }
