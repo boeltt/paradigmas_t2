@@ -2,14 +2,16 @@ package entidades;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+
 
 public class Time {
 	private final String nome;
 	private String estadio;
 	private String cidade;
 	private final String dataFund;
-	private List<Jogador> jogadores = new ArrayList<>(25);
+	private Collection<Jogador> jogadores = new ArrayList<>(25);
 	private Treinador treinador;
 	private int id;
 	
@@ -56,8 +58,8 @@ public class Time {
 		return dataFund;
 	}
 
-	public List<Jogador> getJogadores() {
-		return Collections.unmodifiableList(jogadores);
+	public Collection<Jogador> getJogadores() {
+		return Collections.unmodifiableCollection(jogadores);
 	}
 	
 	public boolean adicionarJogador(Jogador jogador) {

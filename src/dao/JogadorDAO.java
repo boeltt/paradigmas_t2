@@ -12,7 +12,7 @@ import entidades.Jogador;
 //import entidades.Time;
 
 public class JogadorDAO extends DAO<Jogador> {
-	//private static final String SqlBuscaPorTime = "SELECT nome, posicao, idade, numCamisa, id_time FROM jogador WHERE id_time = ?";
+	private static final String SqlBuscaPorTime = "SELECT nome, posicao, idade, numCamisa FROM jogador WHERE id_time = ?";
 
 	public JogadorDAO() {
 		setSqlInsercao("INSERT INTO jogador (nome, posicao, idade, numCamisa, id_time VALUES (?, ?, ?, ?, ?");
@@ -44,21 +44,6 @@ public class JogadorDAO extends DAO<Jogador> {
 	protected void excluir(PreparedStatement ps, Jogador j) throws SQLException {
 		ps.setString(1, j.getNome());
 	}
-
-	/*protected List<Jogador> listarJogadoresTime(Time t) {
-		List<Jogador> l = new ArrayList<>();
-		try (Connection c = abrir(); PreparedStatement ps = c.prepareStatement(SqlBuscaPorTime)) {
-			ps.setInt(1, t.getId());
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				Jogador j = new Jogador(rs.getString("nome"), rs.getString("posicao"), rs.getInt("idade"),
-						rs.getInt("numCamisa"), t);
-				l.add(j);
-			}
-
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
-		return l;
-	}ESSA PORRA FUNCIONA PELO MENOS CARALHO*/
+	
+	protected void buscarPorTime(PreparedStatement ps, )
 }
