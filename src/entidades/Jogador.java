@@ -1,10 +1,10 @@
 package entidades;
 
 public class Jogador {
-	private final String nome;
+	private String nome;
 	private String posicao;
 	private int idade;
-	private final int numCamisa;
+	private int numCamisa;
 	private Time time;
 
 	public Jogador(String nome, String posicao, int idade, int numCamisa, Time time) {
@@ -20,8 +20,6 @@ public class Jogador {
 		return "Jogador [nome=" + nome + ", posicao=" + posicao + ", idade=" + idade + ", numCamisa=" + numCamisa
 				+ ", time=" + time + "]";
 	}
-
-
 
 	public String getNome() {
 		return nome;

@@ -103,14 +103,6 @@ public abstract class DAO<T> {
 			e.printStackTrace();
 		}
 	}
-
-	public void excluirTodos(T t) {
-		try (var con = abrir(); var s = con.createStatement()) {
-			s.execute(getSqlExclusaoTodos());
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
 	
 	public void excluirTodos() {
 		try (var con = abrir(); var s = con.createStatement();) {
@@ -123,7 +115,7 @@ public abstract class DAO<T> {
 	public T buscar(T t) {
 		T temp = null;
 		try (var con = abrir(); var ps = con.prepareStatement(getSqlBusca())) {
-			doBuscar(ps, t);
+			doExcluir(ps, t);
 			ResultSet rs = ps.executeQuery();
 			if(!rs.next())
 				return null;
@@ -154,8 +146,6 @@ public abstract class DAO<T> {
 	protected abstract void doAlterar(PreparedStatement ps, T t) throws SQLException;
 
 	protected abstract void doExcluir(PreparedStatement ps, T t) throws SQLException;
-	
-	protected abstract T doBuscar(PreparedStatement ps, T t) throws SQLException;
 	
 	protected abstract T preencher(ResultSet rs) throws SQLException;
 }

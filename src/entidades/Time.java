@@ -1,35 +1,25 @@
 package entidades;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Collections;
-
 public class Time {
+	private int id;
 	private final String nome;
 	private String estadio;
 	private String cidade;
 	private final String dataFund;
-	private List<Jogador> jogadores = new ArrayList<>(25);
-	private Treinador treinador;
-	private int id;
-	
-	public Time(String nome, String estadio, String cidade, String dataFund, List<Jogador> jogadores,
-			Treinador treinador) {
+
+	public Time(String nome, String estadio, String cidade, String dataFund) {
 		this.nome = nome;
 		this.estadio = estadio;
 		this.cidade = cidade;
 		this.dataFund = dataFund;
-		if(jogadores != null && jogadores.size() <= 25) {
-			this.jogadores.addAll(jogadores);
-		} else {
-			throw new IllegalArgumentException("Máximo de 25 jogadores permitidos");
-		}
 	}
-	
-	@Override
-	public String toString() {
-		return "Time [nome=" + nome + ", estadio=" + estadio + ", cidade=" + cidade + ", dataFund=" + dataFund
-				+ ", jogadores=" + jogadores + ", treinador=" + treinador + "]";
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getNome() {
@@ -55,32 +45,4 @@ public class Time {
 	public String getDataFund() {
 		return dataFund;
 	}
-
-	public List<Jogador> getJogadores() {
-		return Collections.unmodifiableList(jogadores);
-	}
-	
-	public boolean adicionarJogador(Jogador jogador) {
-		if(jogadores.size() < 25) {
-			return jogadores.add(jogador);
-		}
-		return false;
-	}
-
-	public void listarJogadores() {
-		for (Jogador j : getJogadores()) {
-			System.out.println(j.getNome());
-		}
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-	
-	
-
 }
