@@ -13,8 +13,11 @@ public abstract class DAO<T> {
 	private String sqlAlteracao;
 	private String sqlExclusao;
 	private String sqlBusca;
-	private String sqlExclusaoTodos;
 	private String sqlBuscaTodos;
+	private String sqlExclusaoTodos;
+	// Tive uns problemas com o SERIAL então implementei isso aqui pra quando reseta
+	// a coluna resetar o id também
+	private static final String sqlReinicarSerial = "SELECT setval('time_id_seq', 1, false);";
 
 	public String getSqlInsercao() {
 		return sqlInsercao;
@@ -78,7 +81,7 @@ public abstract class DAO<T> {
 		try (var con = abrir(); var ps = con.prepareStatement(getSqlInsercao())) {
 			doInserir(ps, t);
 			ps.execute();
-			//System.out.println("Inserido.");
+			// System.out.println("Inserido.");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -88,7 +91,7 @@ public abstract class DAO<T> {
 		try (var con = abrir(); var ps = con.prepareStatement(getSqlAlteracao())) {
 			doAlterar(ps, t);
 			ps.execute();
-			//System.out.println("Alterado.");
+			// System.out.println("Alterado.");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -98,7 +101,7 @@ public abstract class DAO<T> {
 		try (var con = abrir(); var ps = con.prepareStatement(getSqlAlteracao())) {
 			doExcluir(ps, t);
 			ps.execute();
-			//System.out.println("Excluído.");
+			// System.out.println("Excluído.");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -107,7 +110,8 @@ public abstract class DAO<T> {
 	public void excluirTodos() {
 		try (var con = abrir(); var s = con.createStatement();) {
 			s.execute(getSqlExclusaoTodos());
-			//System.out.println("Todos excluídos.");
+			s.execute(sqlReinicarSerial);
+			// System.out.println("Todos excluídos.");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

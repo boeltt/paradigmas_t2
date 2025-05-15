@@ -7,6 +7,9 @@ import entidades.Time;
 
 public class Classificacao {
 
+	// Essa parte foi um inferno, não sei se ta funcionando tão bem porque demora
+	// MUITO com requests maiores mas eu não entendo HashMap muito bem e foi o que
+	// deu pra fazer
 	public static Map<Time, Integer> gerarClassificacao(List<Partida> partidas) {
 		Map<Time, Integer> pontos = new HashMap<>();
 
@@ -29,13 +32,7 @@ public class Classificacao {
 			}
 		}
 
-		return pontos.entrySet().stream()
-			.sorted(Map.Entry.<Time, Integer>comparingByValue(Comparator.reverseOrder()))
-			.collect(Collectors.toMap(
-				Map.Entry::getKey,
-				Map.Entry::getValue,
-				(e1, e2) -> e1,
-				LinkedHashMap::new
-			));
+		return pontos.entrySet().stream().sorted(Map.Entry.<Time, Integer>comparingByValue(Comparator.reverseOrder()))
+				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 	}
 }

@@ -25,9 +25,11 @@ public class JogadorDAO extends DAO<Jogador> {
 
 	protected void doInserir(PreparedStatement ps, Jogador j) throws SQLException {
 		int total = listarPorTime(j.getTime()).size();
-	    if (total >= 25) {
-	        throw new IllegalStateException("O time '" + j.getTime().getNome() + "' já possui 25 jogadores.");
-	    }
+		// Isso é pra testar o limite dos 25, sei que não é o ideal pq é muito request,
+		// mas é o que eu consegui fazer
+		if (total >= 25) {
+			throw new IllegalStateException("O time '" + j.getTime().getNome() + "' já possui 25 jogadores.");
+		}
 		ps.setString(1, j.getNome());
 		ps.setString(2, j.getPosicao());
 		ps.setInt(3, j.getIdade());

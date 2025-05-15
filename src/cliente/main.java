@@ -1,12 +1,11 @@
 package cliente;
 
 import java.sql.SQLException;
-//import java.util.ArrayList;
-import java.util.Collection;
-//import java.util.List;
+import java.util.*;
 
 import dao.*;
 import entidades.*;
+import util.*;
 
 public class Main {
 
@@ -16,81 +15,73 @@ public class Main {
 		var treinadores = new TreinadorDAO();
 		var partidas = new PartidaDAO();
 
+		jogadores.excluirTodos();
+		treinadores.excluirTodos();
+		partidas.excluirTodos();
+		times.excluirTodos();
+
+		// Pedi pro chatGPT popular, demora uns segundos mas funciona
+		Time[] ts = { new Time("Grêmio", "Arena", "Porto Alegre", "1903-09-15"),
+				new Time("Internacional", "Beira-Rio", "Porto Alegre", "1909-04-04"),
+				new Time("Palmeiras", "Allianz Parque", "São Paulo", "1914-08-26"),
+				new Time("Flamengo", "Maracanã", "Rio de Janeiro", "1895-11-15"),
+				new Time("Corinthians", "Neo Química Arena", "São Paulo", "1910-09-01"),
+				new Time("Cruzeiro", "Mineirão", "Belo Horizonte", "1921-01-02") };
+
+		for (int i = 0; i < ts.length; i++) {
+			times.inserirERetornarId(ts[i]);
+		}
+
+		String[] tecnicos = { "Renato", "Coudet", "Abel", "Tite", "Luxemburgo", "Pepa" };
+		for (int i = 0; i < ts.length; i++) {
+			treinadores.inserir(new Treinador(tecnicos[i], ts[i]));
+		}
+
+		jogadores.inserir(new Jogador("Suárez", "Atacante", 37, 9, ts[0]));
+		jogadores.inserir(new Jogador("Kannemann", "Zagueiro", 32, 4, ts[0]));
+
+		jogadores.inserir(new Jogador("Alan Patrick", "Meia", 33, 10, ts[1]));
+		jogadores.inserir(new Jogador("Rochet", "Goleiro", 31, 1, ts[1]));
+
+		jogadores.inserir(new Jogador("Raphael Veiga", "Meia", 29, 23, ts[2]));
+		jogadores.inserir(new Jogador("Gustavo Gómez", "Zagueiro", 30, 15, ts[2]));
+
+		jogadores.inserir(new Jogador("Gabigol", "Atacante", 28, 10, ts[3]));
+		jogadores.inserir(new Jogador("Arrascaeta", "Meia", 30, 14, ts[3]));
+
+		jogadores.inserir(new Jogador("Cássio", "Goleiro", 36, 1, ts[4]));
+		jogadores.inserir(new Jogador("Fagner", "Lateral", 33, 23, ts[4]));
+
+		jogadores.inserir(new Jogador("Rafael Cabral", "Goleiro", 33, 1, ts[5]));
+		jogadores.inserir(new Jogador("Bruno Rodrigues", "Atacante", 26, 9, ts[5]));
+
+		Partida[] ps = { new Partida(1, ts[0], ts[1], 2, 1), new Partida(2, ts[2], ts[3], 1, 1),
+				new Partida(3, ts[4], ts[5], 0, 2), new Partida(4, ts[0], ts[2], 3, 2),
+				new Partida(5, ts[1], ts[3], 0, 0), new Partida(6, ts[4], ts[0], 1, 4),
+				new Partida(7, ts[1], ts[5], 2, 2), new Partida(8, ts[3], ts[4], 2, 1),
+				new Partida(9, ts[2], ts[5], 1, 0), new Partida(10, ts[3], ts[0], 1, 1),
+				new Partida(11, ts[5], ts[0], 0, 2), new Partida(12, ts[1], ts[4], 1, 3),
+				new Partida(13, ts[2], ts[4], 2, 2), new Partida(14, ts[3], ts[5], 3, 1),
+				new Partida(15, ts[2], ts[1], 0, 1) };
+
+		for (Partida p : ps) {
+			partidas.inserir(p);
+		}
 		
-
-		Time t1 = new Time("Grêmio", "Arena", "Porto Alegre", "1903-09-15");
-		times.inserirERetornarId(t1);
-		Time t2 = new Time("Internacional", "Beira-Rio", "Porto Alegre", "1909-04-04");
-		times.inserirERetornarId(t2);
-
-		Treinador tr1 = new Treinador("Renato", t1);
-		Treinador tr2 = new Treinador("Coudet", t2);
-		treinadores.inserir(tr1);
-		treinadores.inserir(tr2);
-
-		Jogador j1 = new Jogador("Suárez", "Atacante", 37, 10, t1);
-		Jogador j2 = new Jogador("Alan Patrick", "Goleiro", 33, 1, t2);
-		jogadores.inserir(j1);
-		jogadores.inserir(j2);
-
-		Partida p1 = new Partida(1, t1, t2, 2, 1);
-		partidas.inserir(p1);
-
 		times.buscarTodos().forEach(System.out::println);
 		jogadores.buscarTodos().forEach(System.out::println);
 		treinadores.buscarTodos().forEach(System.out::println);
 		partidas.buscarTodos().forEach(System.out::println);
 		System.out.println("\n".repeat(5));
 
-		Collection<Jogador> jogadoresT1 = jogadores.listarPorTime(t1);
-		jogadoresT1.forEach(System.out::println);
+		List<Partida> partidasListadas = new ArrayList<>(partidas.buscarTodos());
+		Map<Time, Integer> tabela = Classificacao.gerarClassificacao(partidasListadas);
+		tabela.forEach((time, pontos) -> System.out.println(time.getNome() + ": " + pontos + " pontos"));
 
 		jogadores.excluirTodos();
-		times.excluirTodos();
 		treinadores.excluirTodos();
 		partidas.excluirTodos();
-		System.out.println("\n".repeat(5));
-
-		// Pedi pro ChatGPT popular pra testar tudo, demora mas funciona e testa o
-		// limite dos 25.
-		// Tem dois imports comentados também pra isso aqui funcionar tem que ativar as
-		// linhas de novo
-		/*
-		 * String[] nomesTimes = {"Grêmio", "Internacional", "Palmeiras", "Flamengo",
-		 * "Corinthians", "Cruzeiro"}; String[] estadios = {"Arena", "Beira-Rio",
-		 * "Allianz Parque", "Maracanã", "Neo Química", "Mineirão"}; String[] cidades =
-		 * {"Porto Alegre", "Porto Alegre", "São Paulo", "Rio de Janeiro", "São Paulo",
-		 * "Belo Horizonte"}; String[] treinadoresNomes = {"Renato", "Coudet", "Abel",
-		 * "Tite", "Luxemburgo", "Pepa"};
-		 * 
-		 * List<Time> listaTimes = new ArrayList<>();
-		 * 
-		 * for (int i = 0; i < nomesTimes.length; i++) { Time t = new
-		 * Time(nomesTimes[i], estadios[i], cidades[i], "2000-01-01");
-		 * times.inserirERetornarId(t); listaTimes.add(t);
-		 * 
-		 * Treinador treinador = new Treinador(treinadoresNomes[i], t);
-		 * treinadores.inserir(treinador);
-		 * 
-		 * int jogadoresParaInserir = (i == nomesTimes.length - 1) ? 26 : 20;
-		 * 
-		 * for (int j = 1; j <= jogadoresParaInserir; j++) { Jogador jogador = new
-		 * Jogador( "Jogador" + j + "_" + nomesTimes[i], "Posição" + (j % 5), 20 + (j %
-		 * 10), j, t ); try { jogadores.inserir(jogador); } catch (IllegalStateException
-		 * e) { System.out.println("ERRO ao inserir jogador " + jogador.getNome() + ": "
-		 * + e.getMessage()); } } }
-		 * 
-		 * times.buscarTodos().forEach(System.out::println);
-		 * jogadores.buscarTodos().forEach(System.out::println);
-		 * treinadores.buscarTodos().forEach(System.out::println);
-		 * partidas.buscarTodos().forEach(System.out::println);
-		 * System.out.println("\n".repeat(5));
-		 * 
-		 * Collection<Jogador> jogadoresTime =
-		 * jogadores.listarPorTime(listaTimes.get(3));
-		 * jogadoresTime.forEach(System.out::println);
-		 */
-
+		times.excluirTodos();
 	}
 
 }

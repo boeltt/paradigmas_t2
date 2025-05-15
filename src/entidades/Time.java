@@ -1,5 +1,7 @@
 package entidades;
 
+import java.util.Objects;
+
 public class Time {
 	private int id;
 	private final String nome;
@@ -14,9 +16,25 @@ public class Time {
 		this.dataFund = dataFund;
 	}
 
+	@Override
 	public String toString() {
 		return "Time [id=" + id + ", nome=" + nome + ", estadio=" + estadio + ", cidade=" + cidade + ", dataFund="
 				+ dataFund + "]";
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null || getClass() != obj.getClass())
+			return false;
+		Time other = (Time) obj;
+		return id == other.id;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
 	}
 
 	public int getId() {
