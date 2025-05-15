@@ -14,6 +14,11 @@ public class Time {
 		this.dataFund = dataFund;
 	}
 
+	public String toString() {
+		return "Time [id=" + id + ", nome=" + nome + ", estadio=" + estadio + ", cidade=" + cidade + ", dataFund="
+				+ dataFund + "]";
+	}
+
 	public int getId() {
 		return id;
 	}

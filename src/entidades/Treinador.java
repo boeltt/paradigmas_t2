@@ -8,8 +8,7 @@ public class Treinador {
 		this.nome = nome;
 		this.time = time;
 	}
-	
-	@Override
+
 	public String toString() {
 		return "Treinador [nome=" + nome + ", time=" + (time != null ? time.getNome() : "sem time") + "]";
 

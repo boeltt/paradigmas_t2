@@ -15,12 +15,12 @@ public class Partida {
 		this.golsTimeVisitante = golsTimeVisitante;
 	}
 
-	@Override
 	public String toString() {
-		return "Partida [numRodada=" + numRodada + ", timeCasa=" + timeCasa + ", timeVisitante=" + timeVisitante
-				+ ", golsTimeCasa=" + golsTimeCasa + ", golsTimeVisitante=" + golsTimeVisitante + "]";
+		return "Partida [numRodada=" + numRodada + ", timeCasa=" + this.timeCasa.getNome() + ", timeVisitante="
+				+ this.timeVisitante.getNome() + ", golsTimeCasa=" + golsTimeCasa + ", golsTimeVisitante="
+				+ golsTimeVisitante + "]";
 	}
-	
+
 	public int getNumRodada() {
 		return numRodada;
 	}

@@ -12,18 +12,22 @@ import entidades.Jogador;
 import entidades.Time;
 
 public class JogadorDAO extends DAO<Jogador> {
-	private static final String sqlBuscaPorTime = "SELECT nomeFROM jogador WHERE id_time = ?";
+	private static final String sqlBuscaPorTime = "SELECT * FROM jogador WHERE time_id = ?";
 
 	public JogadorDAO() {
-		setSqlInsercao("INSERT INTO jogador (nome, posicao, idade, numCamisa, id_time VALUES (?, ?, ?, ?, ?");
+		setSqlInsercao("INSERT INTO jogador (nome, posicao, idade, numCamisa, time_id) VALUES (?, ?, ?, ?, ?)");
 		setSqlAlteracao("UPDATE jogador SET posicao = ?, idade = ?, id_time = ?");
 		setSqlBusca("SELECT * FROM jogador WHERE nome = ?");
 		setSqlBuscaTodos("SELECT * FROM jogador");
 		setSqlExclusao("DELETE FROM jogador WHERE nome = ?");
-		setSqlExclusaoTodos("DELETE * FROM jogador");
+		setSqlExclusaoTodos("DELETE FROM jogador");
 	}
 
 	protected void doInserir(PreparedStatement ps, Jogador j) throws SQLException {
+		int total = listarPorTime(j.getTime()).size();
+	    if (total >= 25) {
+	        throw new IllegalStateException("O time '" + j.getTime().getNome() + "' já possui 25 jogadores.");
+	    }
 		ps.setString(1, j.getNome());
 		ps.setString(2, j.getPosicao());
 		ps.setInt(3, j.getIdade());
@@ -41,7 +45,18 @@ public class JogadorDAO extends DAO<Jogador> {
 		ps.setString(1, j.getNome());
 	}
 
-	protected Collection<Jogador> listarPorTime(Time t) {
+	protected Jogador preencher(ResultSet rs) throws SQLException {
+		String nome = rs.getString("nome");
+		String posicao = rs.getString("posicao");
+		int idade = rs.getInt("idade");
+		int numCamisa = rs.getInt("numCamisa");
+
+		Time time = new TimeDAO().buscarPorId(rs.getInt("time_id"));
+
+		return new Jogador(nome, posicao, idade, numCamisa, time);
+	}
+
+	public Collection<Jogador> listarPorTime(Time t) {
 		Collection<Jogador> jogadores = new ArrayList<>();
 
 		try (Connection c = abrir(); PreparedStatement ps = c.prepareStatement(sqlBuscaPorTime)) {
@@ -57,16 +72,4 @@ public class JogadorDAO extends DAO<Jogador> {
 		}
 		return jogadores;
 	}
-
-	protected Jogador preencher(ResultSet rs) throws SQLException {
-		String nome = rs.getString("nome");
-		String posicao = rs.getString("posicao");
-		int idade = rs.getInt("idade");
-		int numCamisa = rs.getInt("num_camisa");
-
-		Time time = new TimeDAO().buscarPorNome(nome);
-
-		return new Jogador(nome, posicao, idade, numCamisa, time);
-	}
-
 }

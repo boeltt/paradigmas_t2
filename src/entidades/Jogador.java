@@ -14,11 +14,10 @@ public class Jogador {
 		this.numCamisa = numCamisa;
 		this.time = time;
 	}
-	
-	@Override
+
 	public String toString() {
 		return "Jogador [nome=" + nome + ", posicao=" + posicao + ", idade=" + idade + ", numCamisa=" + numCamisa
-				+ ", time=" + time + "]";
+				+ ", time=" + this.time.getNome() + "]";
 	}
 
 	public String getNome() {

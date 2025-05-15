@@ -78,7 +78,7 @@ public abstract class DAO<T> {
 		try (var con = abrir(); var ps = con.prepareStatement(getSqlInsercao())) {
 			doInserir(ps, t);
 			ps.execute();
-			System.out.println("Inserido.");
+			//System.out.println("Inserido.");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -88,7 +88,7 @@ public abstract class DAO<T> {
 		try (var con = abrir(); var ps = con.prepareStatement(getSqlAlteracao())) {
 			doAlterar(ps, t);
 			ps.execute();
-			System.out.println("Alterado.");
+			//System.out.println("Alterado.");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -98,15 +98,16 @@ public abstract class DAO<T> {
 		try (var con = abrir(); var ps = con.prepareStatement(getSqlAlteracao())) {
 			doExcluir(ps, t);
 			ps.execute();
-			System.out.println("Excluído.");
+			//System.out.println("Excluído.");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void excluirTodos() {
 		try (var con = abrir(); var s = con.createStatement();) {
 			s.execute(getSqlExclusaoTodos());
+			//System.out.println("Todos excluídos.");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -117,7 +118,7 @@ public abstract class DAO<T> {
 		try (var con = abrir(); var ps = con.prepareStatement(getSqlBusca())) {
 			doExcluir(ps, t);
 			ResultSet rs = ps.executeQuery();
-			if(!rs.next())
+			if (!rs.next())
 				return null;
 			temp = preencher(rs);
 			rs.close();
@@ -126,17 +127,17 @@ public abstract class DAO<T> {
 		}
 		return temp;
 	}
-	
-	public Collection<T> buscar(String sql) throws SQLException{
+
+	public Collection<T> buscar(String sql) throws SQLException {
 		var retorno = new ArrayList<T>();
 		try (var con = abrir(); var s = con.createStatement(); var rs = s.executeQuery(sql)) {
-			while(rs.next()) {
+			while (rs.next()) {
 				retorno.add(preencher(rs));
 			}
 			return retorno;
 		}
 	}
-	
+
 	public Collection<T> buscarTodos() throws SQLException {
 		return buscar(getSqlBuscaTodos());
 	}
@@ -146,6 +147,6 @@ public abstract class DAO<T> {
 	protected abstract void doAlterar(PreparedStatement ps, T t) throws SQLException;
 
 	protected abstract void doExcluir(PreparedStatement ps, T t) throws SQLException;
-	
+
 	protected abstract T preencher(ResultSet rs) throws SQLException;
 }
